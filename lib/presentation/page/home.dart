@@ -23,6 +23,7 @@ class Home extends StatelessWidget {
                       horizontal: 12,
                     ),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
                           flex: 1,
@@ -35,7 +36,10 @@ class Home extends StatelessWidget {
                         ),
                         Flexible(
                           flex: 3,
-                          child: Text(state.books[index].title),
+                          child: Text(
+                            state.books[index].title,
+                            maxLines: 2,
+                          ),
                         ),
                       ],
                     ),
