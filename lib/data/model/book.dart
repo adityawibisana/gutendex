@@ -1,11 +1,15 @@
 import 'dart:convert';
 
+import 'format.dart';
+
 class Book {
   final int id;
   final String title;
+  final Format formats;
   Book({
     required this.id,
     required this.title,
+    required this.formats,
   });
 
   Map<String, dynamic> toMap() {
@@ -13,6 +17,7 @@ class Book {
   
     result.addAll({'id': id});
     result.addAll({'title': title});
+    result.addAll({'formats': formats.toMap()});
   
     return result;
   }
@@ -21,6 +26,7 @@ class Book {
     return Book(
       id: map['id']?.toInt() ?? 0,
       title: map['title'] ?? '',
+      formats: Format.fromMap(map['formats']),
     );
   }
 
