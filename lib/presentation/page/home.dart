@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,8 +17,19 @@ class Home extends StatelessWidget {
             if (state is BookCubitLoadedState) {
               return ListView.builder(
                 itemBuilder: (BuildContext _, int index) {
-                  return ListTile(
-                    title: Text(state.books[index].title),
+                  return Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: CachedNetworkImage(
+                          imageUrl: state.books[index].formats.imagejpeg,
+                        ),
+                      ),
+                      Flexible(
+                        flex: 3,
+                        child: Text(state.books[index].title),
+                      ),
+                    ],
                   );
                 },
                 itemCount: state.books.length,
