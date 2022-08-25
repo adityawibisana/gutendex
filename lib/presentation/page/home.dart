@@ -17,19 +17,28 @@ class Home extends StatelessWidget {
             if (state is BookCubitLoadedState) {
               return ListView.builder(
                 itemBuilder: (BuildContext _, int index) {
-                  return Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: CachedNetworkImage(
-                          imageUrl: state.books[index].formats.imagejpeg,
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 12,
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: CachedNetworkImage(
+                            imageUrl: state.books[index].formats.imagejpeg,
+                          ),
                         ),
-                      ),
-                      Flexible(
-                        flex: 3,
-                        child: Text(state.books[index].title),
-                      ),
-                    ],
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        Flexible(
+                          flex: 3,
+                          child: Text(state.books[index].title),
+                        ),
+                      ],
+                    ),
                   );
                 },
                 itemCount: state.books.length,
