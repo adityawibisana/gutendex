@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gutendex/data/repository/gutendex.dart';
 import 'package:gutendex/presentation/page/book_detail.dart';
 
 import '../../business_logic/cubit/book_cubit.dart';
@@ -12,9 +13,12 @@ class AppRouter {
     switch (routeSettings.name) {
       case '/':
         return MaterialPageRoute(
-          builder: (context) => MultiBlocProvider(
-            providers: [BlocProvider.value(value: context.read<BookCubit>())],
-            child: const Home(),
+          builder: (context) => RepositoryProvider(
+            create: (_) => RepositoryProvider.value(value: context.watch<Gutendex>()),
+            child: MultiBlocProvider(
+              providers: [BlocProvider.value(value: context.read<BookCubit>())],
+              child: const Home(),
+            ),
           ),
         );
 
