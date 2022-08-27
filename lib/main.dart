@@ -26,20 +26,23 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppRouter appRouter = AppRouter();
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => BookCubit(
-            Gutendex(service: GutendexServiceImp()),
-            initialState: BookCubitInitialState(),
+    return RepositoryProvider(
+      create: (_) => Gutendex(service: GutendexServiceImp()),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => BookCubit(
+              context.read<Gutendex>(),
+              initialState: BookCubitInitialState(),
+            ),
           ),
-        ),
-      ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        onGenerateRoute: appRouter.onGenerateRoute,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+        ],
+        child: MaterialApp(
+          title: 'Flutter Demo',
+          onGenerateRoute: appRouter.onGenerateRoute,
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
         ),
       ),
     );
