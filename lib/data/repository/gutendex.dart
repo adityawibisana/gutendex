@@ -7,8 +7,8 @@ class Gutendex {
   final GutendexService service;
   Gutendex({required this.service});
 
-  Future<List<Book>> getBooks() async {
-    final apiResult = await service.getBooks();
+  Future<List<Book>> getBooks(int page) async {
+    final apiResult = await service.getBooks(page);
     return GutendexBooks.fromJson(apiResult).results;
   }
 }

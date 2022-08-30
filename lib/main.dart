@@ -1,10 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gutendex/business_logic/cubit/book_cubit.dart';
+import 'package:gutendex/data/provider/gutendex_service_web.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
-
-import 'data/provider/gutendex_service.dart';
 import 'data/repository/gutendex.dart';
 import 'presentation/router/app_router.dart';
 
@@ -25,9 +25,10 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppRouter appRouter = AppRouter();
+    final gutendexService = GutendexServiceWeb(Dio());
 
     return RepositoryProvider(
-      create: (_) => Gutendex(service: GutendexServiceImp()),
+      create: (_) => Gutendex(service: gutendexService),
       child: MultiBlocProvider(
         providers: [
           BlocProvider(

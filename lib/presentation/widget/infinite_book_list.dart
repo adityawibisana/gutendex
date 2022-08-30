@@ -18,7 +18,7 @@ class _InfiniteBookListState extends State<InfiniteBookList> {
   // 1
   final _pagingController = PagingController<int, Book>(
     // 2
-    firstPageKey: 0,
+    firstPageKey: 1,
   );
 
   @override
@@ -27,12 +27,13 @@ class _InfiniteBookListState extends State<InfiniteBookList> {
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
+    
     super.initState();
   }
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems = await context.read<Gutendex>().getBooks();
+      final newItems = await context.read<Gutendex>().getBooks(pageKey);
       final nextPageKey = pageKey + newItems.length;
       _pagingController.appendPage(newItems, nextPageKey);
     } catch (error) {
@@ -66,11 +67,5 @@ class _InfiniteBookListState extends State<InfiniteBookList> {
         ),
       ),
     );
-  }
-
-  @override
-  void didUpdateWidget(covariant InfiniteBookList oldWidget) {
-    _pagingController.refresh();
-    super.didUpdateWidget(oldWidget);
-  }
+  } 
 }

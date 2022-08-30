@@ -8,8 +8,8 @@ class BookCubit extends HydratedCubit<BookCubitState> {
   BookCubit(this.gutendex, {required BookCubitState initialState})
       : super(initialState);
 
-  Future<void> getBooks() async {
-    final books = await gutendex.getBooks();
+  Future<void> getBooks(int page) async {
+    final books = await gutendex.getBooks(page);
     emit(BookCubitLoadedState(books: books));
   }
 

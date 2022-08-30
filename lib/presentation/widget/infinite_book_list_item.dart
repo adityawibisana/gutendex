@@ -43,7 +43,7 @@ class InfiniteBookListItem extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    book.authors[0].name,
+                    book.authors.isNotEmpty ? book.authors[0].name : "",
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),
