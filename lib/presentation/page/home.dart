@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gutendex/data/repository/gutendex.dart';
 import 'package:gutendex/presentation/widget/infinite_book_list.dart';
+
+import '../../business_logic/search_feature.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -10,10 +11,24 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: SafeArea(
-        child: RepositoryProvider(
-          create: (_) =>
-              RepositoryProvider.value(value: context.read<Gutendex>()),
-          child: const InfiniteBookList(),
+        child: MultiRepositoryProvider(
+          providers: [
+            RepositoryProvider.value(value: context.read<SearchFeature>()),
+          ],
+          child: Column(
+            children: [
+              TextField(
+                decoration: const InputDecoration(
+                  label: Text("Search"),
+                  prefixIcon: Icon(Icons.search),
+                ),
+                onSubmitted: (s) => {
+                  context.read<SearchFeature>().searchController.add(s),
+                },
+              ),
+              const Expanded(child: InfiniteBookList()),
+            ],
+          ),
         ),
       ),
     );

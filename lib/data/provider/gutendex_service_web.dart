@@ -22,4 +22,21 @@ class GutendexServiceWeb implements GutendexService {
       rethrow;
     }
   }
+
+  @override
+  Future<String> searchBooks(String searchTerm) async {
+    try {
+      final response = await dio.get(
+        '$url/books/?search=$searchTerm',
+        options: Options(
+          contentType: Headers.jsonContentType,
+          responseType: ResponseType.json,
+        ),
+      );
+      // await http.
+      return response.toString();
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

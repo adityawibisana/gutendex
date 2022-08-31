@@ -11,4 +11,9 @@ class Gutendex {
     final apiResult = await service.getBooks(page);
     return GutendexBooks.fromJson(apiResult).results;
   }
+
+  Future<List<Book>> searchBooks(String searchTerm) async {
+    final apiResult = await service.searchBooks(searchTerm);
+    return GutendexBooks.fromJson(apiResult).results;
+  }
 }

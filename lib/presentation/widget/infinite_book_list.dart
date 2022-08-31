@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:gutendex/presentation/widget/infinite_book_list_item.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../business_logic/search_feature.dart';
 import '../../data/model/book.dart';
 import '../../data/repository/gutendex.dart';
 
@@ -21,13 +24,19 @@ class _InfiniteBookListState extends State<InfiniteBookList> {
     firstPageKey: 1,
   );
 
+  StreamSubscription<String>? searchSubscription;
+
   @override
   void initState() {
     // 3
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
-    
+
+    searchSubscription = context.read<SearchFeature>().searchController.stream.listen((searchTerm) {
+      _search(searchTerm);
+    });
+
     super.initState();
   }
 
@@ -41,10 +50,20 @@ class _InfiniteBookListState extends State<InfiniteBookList> {
     }
   }
 
+  Future<void> _search(String query) async {
+    try {
+      final newItems = await context.read<Gutendex>().searchBooks(query);
+      _pagingController.itemList = newItems;
+    } catch (error) {
+      _pagingController.error = error;
+    }
+  }
+
   @override
   void dispose() {
     // 4
     _pagingController.dispose();
+    searchSubscription?.cancel();
     super.dispose();
   }
 
@@ -67,5 +86,5 @@ class _InfiniteBookListState extends State<InfiniteBookList> {
         ),
       ),
     );
-  } 
+  }
 }
