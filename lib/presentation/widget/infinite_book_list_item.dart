@@ -21,9 +21,7 @@ class InfiniteBookListItem extends StatelessWidget {
           children: [
             Expanded(
               flex: 1,
-              child: CachedNetworkImage(
-                imageUrl: book.formats.imagejpeg,
-              ),
+              child: _drawBookImage(context, book.formats.imagejpeg),
             ),
             const SizedBox(
               width: 12,
@@ -56,6 +54,17 @@ class InfiniteBookListItem extends StatelessWidget {
           Navigator.of(context).pushNamed(AppRouter.bookDetail, arguments: book)
         },
       ),
+    );
+  }
+
+  Widget _drawBookImage(BuildContext context, String url) {
+    if (url.isEmpty) {
+      url = "https://via.placeholder.com/150";
+    }
+    return CachedNetworkImage(
+      imageUrl: url,
+      placeholder: (context, url) => const CircularProgressIndicator(),
+      errorWidget: (context, url, error) => const Icon(Icons.error),
     );
   }
 }
