@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/model/book.dart';
 import '../router/app_router.dart';
+import 'custom_image.dart';
 
 class InfiniteBookListItem extends StatelessWidget {
   final Book book;
@@ -21,7 +21,7 @@ class InfiniteBookListItem extends StatelessWidget {
           children: [
             Expanded(
               flex: 1,
-              child: _drawBookImage(context, book.formats.imagejpeg),
+              child: CustomImage(context: context, url: book.formats.imagejpeg),
             ),
             const SizedBox(
               width: 12,
@@ -54,17 +54,6 @@ class InfiniteBookListItem extends StatelessWidget {
           Navigator.of(context).pushNamed(AppRouter.bookDetail, arguments: book)
         },
       ),
-    );
-  }
-
-  Widget _drawBookImage(BuildContext context, String url) {
-    if (url.isEmpty) {
-      url = "https://via.placeholder.com/150";
-    }
-    return CachedNetworkImage(
-      imageUrl: url,
-      placeholder: (context, url) => const CircularProgressIndicator(),
-      errorWidget: (context, url, error) => const Icon(Icons.error),
     );
   }
 }
