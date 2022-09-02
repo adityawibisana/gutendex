@@ -29,7 +29,7 @@ class Home extends StatelessWidget {
                   prefixIcon: Icon(Icons.search),
                 ),
                 onSubmitted: (s) => {
-                  context.read<SearchFeature>().searchController.add(s),
+                  context.read<SearchFeature>().search(s),
                 },
               ),
               const Expanded(child: InfiniteBookList()),
