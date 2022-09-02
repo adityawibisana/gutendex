@@ -15,12 +15,14 @@ class SearchCubit extends Cubit<SearchState> {
   SearchCubit(
     this.pagingController,
     this.gutendex,
-  ) : super(SearchInitial());
+  ) : super(SearchInitial(""));
 
   Future<void> search(String query) async {
     try {
+      emit(SearchLoading(query));
       final newItems = await gutendex.searchBooks(query);
       pagingController.itemList = newItems;
+      emit(SearchFinished(query));
     } catch (error) {
       pagingController.error = error;
     }

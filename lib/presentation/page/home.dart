@@ -25,23 +25,33 @@ class Home extends StatelessWidget {
           ],
           child: Column(
             children: [
-              TextField(
-                decoration: const InputDecoration(
-                  label: Text("Search"),
-                  prefixIcon: Icon(Icons.search),
-                ),
-                onSubmitted: (s) => {
-                  context.read<SearchCubit>().search(s),
-                },
-                controller: searchTextController,
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      decoration: const InputDecoration(
+                        label: Text("Search"),
+                        prefixIcon: Icon(Icons.search),
+                      ),
+                      onSubmitted: (s) => {
+                        context.read<SearchCubit>().search(s),
+                      },
+                      controller: searchTextController,
+                    ),
+                  ),
+                  BlocBuilder<SearchCubit, SearchState>(
+                    builder: (context, state) {
+                      if (state is SearchLoading) {
+                        return const CircularProgressIndicator();
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
+                ],
               ),
               BlocListener<SearchCubit, SearchState>(
                 listener: (context, state) {
-                  if (state is SearchTypingCompleted) {
-                    searchTextController.text = state.query;
-                  } else {
-                    searchTextController.text = "";
-                  }
+                  searchTextController.text = state.query;
                 },
                 child: const SizedBox.shrink(),
               ),

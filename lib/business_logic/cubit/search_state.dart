@@ -1,8 +1,22 @@
-class SearchState {}
+class SearchState {
+  final String query;
+  SearchState(
+    this.query,
+  );
+}
 
-class SearchInitial extends SearchState {}
+class SearchInitial extends SearchState {
+  SearchInitial(super.query);
+}
 
 class SearchTypingCompleted extends SearchState {
-  final String query;
-  SearchTypingCompleted(this.query);
+  SearchTypingCompleted(super.query);
+}
+
+class SearchLoading extends SearchState {
+  SearchLoading(super.query);
+}
+
+class SearchFinished extends SearchState {
+  SearchFinished(super.query);
 }
