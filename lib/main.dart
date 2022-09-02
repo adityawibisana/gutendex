@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gutendex/business_logic/cubit/book_cubit.dart';
-import 'package:gutendex/business_logic/search_feature.dart';
+import 'package:gutendex/business_logic/cubit/search_cubit.dart';
 import 'package:gutendex/data/provider/gutendex_service_web.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -42,9 +42,9 @@ class App extends StatelessWidget {
           create: (_) => gutendex,
         ),
         RepositoryProvider(
-          create: (_) => SearchFeature(
-            pagingController: pagingController,
-            gutendex: gutendex,
+          create: (_) => SearchCubit(
+            pagingController,
+            gutendex,
           ),
         ),
         RepositoryProvider(create: (_) => pagingFeature)

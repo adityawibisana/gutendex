@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:gutendex/data/provider/gutendex_service.dart';
-import '../model/gutendex_books.dart';
 
 class GutendexServiceWeb implements GutendexService {
   final String url = 'https://gutendex.com';

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gutendex/business_logic/paging_feature.dart';
 import 'package:gutendex/presentation/widget/infinite_book_list.dart';
 
-import '../../business_logic/search_feature.dart';
+import '../../business_logic/cubit/search_cubit.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -15,7 +15,7 @@ class Home extends StatelessWidget {
         child: MultiRepositoryProvider(
           providers: [
             RepositoryProvider.value(
-              value: context.read<SearchFeature>(),
+              value: context.read<SearchCubit>(),
             ),
             RepositoryProvider.value(
               value: context.read<PagingFeature>(),
@@ -29,7 +29,7 @@ class Home extends StatelessWidget {
                   prefixIcon: Icon(Icons.search),
                 ),
                 onSubmitted: (s) => {
-                  context.read<SearchFeature>().search(s),
+                  context.read<SearchCubit>().search(s),
                 },
               ),
               const Expanded(child: InfiniteBookList()),
