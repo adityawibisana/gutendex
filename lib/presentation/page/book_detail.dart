@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gutendex/presentation/widget/custom_image.dart';
 
 import '../../business_logic/cubit/search_cubit.dart';
 import '../../data/model/author.dart';
@@ -17,8 +18,11 @@ class BookDetail extends StatelessWidget {
     return Material(
       child: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(book.title),
+            CustomImage(context: context, url: book.formats.imagejpeg),
+            Text(book.title, style: const TextStyle(fontSize: 20)),
+            const Text("Authors:"),
             Expanded(child: _drawAuthors(book.authors)),
           ],
         ),
@@ -35,9 +39,11 @@ class BookDetail extends StatelessWidget {
       itemCount: authors.length,
       itemBuilder: (context, index) {
         return InkWell(
-          child: Text(
-            authors[index].name,
-            style: const TextStyle(color: Colors.blue),
+          child: Center(
+            child: Text(
+              authors[index].name,
+              style: const TextStyle(color: Colors.blue),
+            ),
           ),
           onTap: () => {
             context.read<SearchCubit>().updateSearch(authors[index].name),
