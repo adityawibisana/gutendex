@@ -2,10 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gutendex/business_logic/cubit/book_cubit.dart';
+import 'package:gutendex/business_logic/paging_feature.dart';
 import 'package:gutendex/business_logic/search_feature.dart';
 import 'package:gutendex/data/provider/gutendex_service_web.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:path_provider/path_provider.dart';
+import 'data/model/book.dart';
 import 'data/repository/gutendex.dart';
 import 'presentation/router/app_router.dart';
 
@@ -27,13 +30,21 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppRouter appRouter = AppRouter();
     final gutendexService = GutendexServiceWeb(Dio());
+    final gutendex = Gutendex(service: gutendexService);
 
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<Gutendex>(
-          create: (_) => Gutendex(service: gutendexService),
+          create: (_) => gutendex,
         ),
-        RepositoryProvider(create: (_) => SearchFeature())
+        RepositoryProvider(create: (_) => SearchFeature()),
+        RepositoryProvider(
+          create: (_) => PagingFeature(
+              pagingController: PagingController<int, Book>(
+                firstPageKey: 1,
+              ),
+              gutendex: gutendex)..init(),
+        )
       ],
       child: MultiBlocProvider(
         providers: [

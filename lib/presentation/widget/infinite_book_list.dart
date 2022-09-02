@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gutendex/presentation/widget/infinite_book_list_item.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../business_logic/paging_feature.dart';
 import '../../business_logic/search_feature.dart';
 import '../../data/model/book.dart';
 import '../../data/repository/gutendex.dart';
@@ -19,35 +20,22 @@ class InfiniteBookList extends StatefulWidget {
 
 class _InfiniteBookListState extends State<InfiniteBookList> {
   // 1
-  final _pagingController = PagingController<int, Book>(
-    // 2
-    firstPageKey: 1,
-  );
-
-  StreamSubscription<String>? searchSubscription;
+  late PagingController<int, Book> _pagingController;
+  late StreamSubscription<String> searchSubscription;
 
   @override
   void initState() {
-    // 3
-    _pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey);
-    });
+    _pagingController = context.read<PagingFeature>().pagingController;
 
-    searchSubscription = context.read<SearchFeature>().searchController.stream.listen((searchTerm) {
+    searchSubscription = context
+        .read<SearchFeature>()
+        .searchController
+        .stream
+        .listen((searchTerm) {
       _search(searchTerm);
     });
 
     super.initState();
-  }
-
-  Future<void> _fetchPage(int pageKey) async {
-    try {
-      final newItems = await context.read<Gutendex>().getBooks(pageKey);
-      final nextPageKey = pageKey + newItems.length;
-      _pagingController.appendPage(newItems, nextPageKey);
-    } catch (error) {
-      _pagingController.error = error;
-    }
   }
 
   Future<void> _search(String query) async {
@@ -61,9 +49,7 @@ class _InfiniteBookListState extends State<InfiniteBookList> {
 
   @override
   void dispose() {
-    // 4
-    _pagingController.dispose();
-    searchSubscription?.cancel();
+    searchSubscription.cancel();
     super.dispose();
   }
 
