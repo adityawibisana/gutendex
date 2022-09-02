@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../business_logic/cubit/search_cubit.dart';
+import '../../data/model/author.dart';
 import '../../data/model/book.dart';
 
 class BookDetail extends StatelessWidget {
@@ -18,16 +19,32 @@ class BookDetail extends StatelessWidget {
         child: Column(
           children: [
             Text(book.title),
-            InkWell(
-              child: Text(book.authors.isNotEmpty ? book.authors[0].name : ""),
-              onTap: () => {
-                context.read<SearchCubit>().updateSearch(book.authors[0].name),
-                Navigator.of(context).pop(),
-              },
-            ),
+            Expanded(child: _drawAuthors(book.authors)),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _drawAuthors(List<Author> authors) {
+    if (authors.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return ListView.builder(
+      itemCount: authors.length,
+      itemBuilder: (context, index) {
+        return InkWell(
+          child: Text(
+            authors[index].name,
+            style: const TextStyle(color: Colors.blue),
+          ),
+          onTap: () => {
+            context.read<SearchCubit>().updateSearch(authors[index].name),
+            Navigator.of(context).pop(),
+          },
+        );
+      },
     );
   }
 }
