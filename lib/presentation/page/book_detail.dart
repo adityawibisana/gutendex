@@ -13,7 +13,17 @@ class BookDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: SafeArea(
-        child: Text(book.title),
+        child: Column(
+          children: [
+            Text(book.title),
+            InkWell(
+              child: Text(book.authors.isNotEmpty ? book.authors[0].name : ""),
+              onTap: () => {
+                Navigator.of(context).pop(),
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
