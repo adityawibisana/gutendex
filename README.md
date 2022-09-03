@@ -1,16 +1,13 @@
 # gutendex
 
-A new Flutter project.
+Flutter project which show list of books, based on Gutendex API. Can also do search. Built with Flutter 
+
+## Architecture
+This project's architecture is based on [bloc](https://pub.dev/packages/flutter_bloc). Stucture can be seen below:
+![App Structure](https://github.com/adityawibisana/gutendex/blob/main/git/app-structure.png)
 
 ## Getting Started
+Use VSCode to open this project. Press 'Play' button, and you're good to go.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Testing
+Test code can be seen on test/api_test.dart
