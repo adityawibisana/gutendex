@@ -14,7 +14,8 @@ class AppRouter {
       case '/':
         return MaterialPageRoute(
           builder: (context) => RepositoryProvider(
-            create: (_) => RepositoryProvider.value(value: context.watch<Gutendex>()),
+            create: (_) =>
+                RepositoryProvider.value(value: context.watch<Gutendex>()),
             child: MultiBlocProvider(
               providers: [BlocProvider.value(value: context.read<BookCubit>())],
               child: const Home(),
@@ -32,6 +33,6 @@ class AppRouter {
           ),
         );
     }
-    return onGenerateRoute(routeSettings.copyWith(name: '/'));
+    return onGenerateRoute(const RouteSettings(name: '/'));
   }
 }
